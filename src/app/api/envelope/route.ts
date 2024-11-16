@@ -8,26 +8,38 @@ export async function POST(request: Request) {
     const { trackingNumber } = await request.json();
 
     if (!trackingNumber || typeof trackingNumber !== "string") {
-      return NextResponse.json({ error: "Invalid tracking number" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid tracking number" },
+        { status: 400 }
+      );
     }
 
     console.log("Fetching parcel data for tracking number:", trackingNumber);
 
     // Fetch data from the database
     const [rows]: [any[], any] = await db.query(
-      "SELECT tracking_number, sender_name, sender_surname, sender_postal, receiver_name, receiver_surname, receiver_postal, type FROM parcel_records WHERE tracking_number = ?",
+      "SELECT tracking_number, sender_name, sender_surname, sender_address, sender_postal, receiver_name, receiver_surname, receiver_address, receiver_postal, type, weight FROM parcel_records WHERE tracking_number = ?",
       [trackingNumber]
     );
 
     if (!rows || rows.length === 0) {
-      return NextResponse.json({ error: "Tracking number not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Tracking number not found" },
+        { status: 404 }
+      );
     }
 
     const parcel = rows[0];
 
     if (!parcel.tracking_number) {
-      console.error("Invalid tracking number retrieved from the database:", parcel.tracking_number);
-      return NextResponse.json({ error: "Invalid data from the database" }, { status: 500 });
+      console.error(
+        "Invalid tracking number retrieved from the database:",
+        parcel.tracking_number
+      );
+      return NextResponse.json(
+        { error: "Invalid data from the database" },
+        { status: 500 }
+      );
     }
 
     // Generate QR Code
@@ -38,43 +50,63 @@ export async function POST(request: Request) {
     const page = pdfDoc.addPage([600, 400]);
     const { width, height } = page.getSize();
 
-    const { StandardFonts } = require('pdf-lib');
+    const { StandardFonts } = require("pdf-lib");
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontSize = 12;
 
     // Add parcel information to the PDF
-    page.drawText(`Tracking Number: ${parcel.tracking_number}`, {
+    page.drawText(`${parcel.tracking_number}`, {
       x: 50,
       y: height - 50,
       size: fontSize,
       font,
     });
-    page.drawText(`Sender: ${parcel.sender_name} ${parcel.sender_surname}`, {
+    page.drawText(`FROM ${parcel.sender_name} ${parcel.sender_surname}`, {
       x: 50,
       y: height - 80,
       size: fontSize,
       font,
     });
-    page.drawText(`Receiver: ${parcel.receiver_name} ${parcel.receiver_surname}`, {
+    page.drawText(`${parcel.sender_address}`, {
       x: 50,
       y: height - 110,
       size: fontSize,
       font,
     });
-    page.drawText(`Sender Postal: ${parcel.sender_postal}`, {
+    page.drawText(`${parcel.sender_postal}`, {
       x: 50,
       y: height - 140,
       size: fontSize,
       font,
     });
-    page.drawText(`Receiver Postal: ${parcel.receiver_postal}`, {
-      x: 50,
-      y: height - 170,
+
+    page.drawText(`TO ${parcel.receiver_name} ${parcel.receiver_surname}`, {
+      x: 400,
+      y: height - 80,
       size: fontSize,
       font,
     });
-    page.drawText(`Type: ${parcel.type}`, {
+    page.drawText(`${parcel.receiver_address}`, {
+      x: 400,
+      y: height - 110,
+      size: fontSize,
+      font,
+    });
+    page.drawText(`${parcel.receiver_postal}`, {
+      x: 400,
+      y: height - 140,
+      size: fontSize,
+      font,
+    });
+
+    page.drawText(`| ${parcel.type.toUpperCase()} |`, {
       x: 50,
+      y: height - 200,
+      size: fontSize,
+      font,
+    });
+    page.drawText(`${parcel.weight} Kg`, {
+      x: 200,
       y: height - 200,
       size: fontSize,
       font,
@@ -93,10 +125,16 @@ export async function POST(request: Request) {
 
     // Return PDF as a response
     return new NextResponse(pdfBytes, {
-      headers: { "Content-Type": "application/pdf", "Content-Disposition": "attachment; filename=envelope.pdf" },
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": "attachment; filename=envelope.pdf",
+      },
     });
   } catch (error) {
     console.error("Error generating PDF:", error);
-    return NextResponse.json({ error: "Failed to generate PDF" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to generate PDF" },
+      { status: 500 }
+    );
   }
 }
