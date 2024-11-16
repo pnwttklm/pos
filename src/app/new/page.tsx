@@ -47,6 +47,11 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setCount(1);
+  };
+
+  const PaymentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
     const trackingNumber = `TN${Date.now()}`; // Example: Auto-generate tracking number
     const price = formData.weight * 5; // Example: Calculate price based on weight
 
@@ -72,26 +77,38 @@ export default function Home() {
     });
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/data`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newRecord),
-      });
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/data`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newRecord),
+          });
 
-      if (!response.ok) {
-      throw new Error("Network response was not ok");
-      }
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-      alert("There was an error submitting the form. Please try again.");
-      return;
-    }
-
-    setCount(1);
-  };
+          if (!response.ok) {
+          throw new Error("Network response was not ok");
+          }
+        } catch (error) {
+          console.error("There was a problem with the fetch operation:", error);
+          alert("There was an error submitting the form. Please try again.");
+          return;
+        }
+    setCount(0);
+    alert("Your parcel information is saved.");
+  }
   const [count, setCount] = useState(0);
+
+
+  const [paymentMethod, setPaymentMethod] = useState<string>("credit");
+  const [selectedBank, setSelectedBank] = useState<string>('');
+
+  const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPaymentMethod(e.target.value);
+  };
+
+  const handleBankSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedBank(e.target.value); // Update selected bank
+  };
 
   return (
     <>
@@ -215,24 +232,107 @@ export default function Home() {
             </div>
             <button type="submit">Submit</button>
           </form>
-
-          <h2>Records</h2>
-          <ul>
-              <li>
-                {data?.tracking_number}: {data?.sender_name} to{" "}
-                {data?.receiver_name} (${data?.price})<br />
-                Sender Postal: {data?.sender_postal}
-                <br />
-                Reciver Postal: {data?.receiver_postal}
-                <br />
-                Weight:{data?.weight}
-              </li>
-          </ul>
         </div>
       ) : (
-        <>
-        <h1>
-          Here is page 2</h1></>
+
+        <div>
+          <h1>Choose Payment Method</h1>
+          <form onSubmit={PaymentSubmit}>
+          <div>
+          <label>
+            <input
+              type="radio"
+              name="payment_method"
+              value="Mobile_Banking"
+              checked={paymentMethod === "Mobile_Banking"}
+              onChange={handlePaymentMethodChange}
+            />
+            Mobile Banking
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="payment_method"
+              value="True_wallet"
+              checked={paymentMethod === "True_wallet"}
+              onChange={handlePaymentMethodChange}
+            />
+            True wallet
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="payment_method"
+              value="PromptPay"
+              checked={paymentMethod === "PromptPay"}
+              onChange={handlePaymentMethodChange}
+            />
+            PromptPay
+          </label>
+        </div>
+
+        {paymentMethod === "Mobile_Banking" && (
+        <div>
+          <label>Choose your bank</label>
+          <div>
+          <label>
+            <input type="radio" name="Mobile_Banking" value="SCB Easy" checked= {selectedBank === "SCB"} onChange={handleBankSelection}/>
+            SCB Easy
+          </label>
+          </div>
+          <div>
+          <label>
+            <input type="radio" name="Mobile_Banking" value="K PLUS" checked= {selectedBank === "K PLUS"} onChange={handleBankSelection}/>
+            K PLUS
+          </label>
+          </div>
+          <div>
+          <label>
+            <input type="radio" name="Mobile_Banking" value="Krungsri" checked= {selectedBank === "Krungsri"} onChange={handleBankSelection}/>
+            Krungsri
+          </label>
+          </div>
+          <div>
+          <label>
+            <input type="radio" name="Mobile_Banking" value="Krungthai" checked= {selectedBank === "Krungthai"} onChange={handleBankSelection}/>
+            Krungthai
+          </label>
+          </div>
+          <div>
+          <label>
+            <input type="radio" name="Mobile_Banking" value="Bangkok" checked= {selectedBank === "Bangkok"} onChange={handleBankSelection}/>
+            Bangkok
+          </label>
+          </div>
+        </div>
+      )}
+
+      {paymentMethod === "True_wallet" && (
+        <div>
+          <label>True wallet Phone Number</label>
+          <input
+            type="number"
+            name="debit_card_number"
+            onChange={handleBankSelection}
+            required
+          />
+        </div>
+      )}
+
+      {paymentMethod === "PromptPay" && (
+        <div>
+         <img src="/images/Promptpay.jpg" alt="PromptPay" />
+        </div>
+      )}
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
       )}
     </>
   );
