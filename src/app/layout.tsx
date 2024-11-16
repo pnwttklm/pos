@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
+import Nav from '../components/nav'
+import Footer from '../components/footer'
 
 export const metadata: Metadata = {
   title: "Post Office System",
@@ -15,9 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className='antialiased'
+        className='antialiased font-serif'
       >
-        {children}
+          <Nav/>
+          {children}
+          <Footer/>
       </body>
     </html>
   );

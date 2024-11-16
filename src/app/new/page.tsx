@@ -113,12 +113,12 @@ export default function Home() {
   return (
     <>
       {count == 0 ? (
-        <div>
-          <h1>Postal Form</h1>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Sender Name</label>
-              <input
+        <div className="">
+          <h1 className="flex justify-center text-2xl mt-20 underline font-medium">Postal Form</h1>
+          <form onSubmit={handleSubmit} className="justify-self-center text-center rounded-lg border-sky-500 mx-20 w-3/5 shadow-xl my-16">
+            <div className="flex items-center">
+              <label className="w-1/3">Sender Name</label>
+              <input className="text-center rounded-lg border-2 border-black-800 mx-20 min-w-48"
                 type="text"
                 name="sender_name"
                 value={formData.sender_name}
@@ -126,9 +126,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div>
-              <label>Sender Surname</label>
-              <input
+            <div className="flex items-center">
+              <label className="w-1/3">Sender Surname</label>
+              <input className="text-center rounded-lg border-2 border-black-800 mx-20 min-w-48"
                 type="text"
                 name="sender_surname"
                 value={formData.sender_surname}
@@ -136,9 +136,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div>
-              <label>Sender Address</label>
-              <input
+            <div className="flex items-center">
+              <label className="w-1/3">Sender Address</label>
+              <input className="text-center rounded-lg border-2 border-black-800 mx-20 min-w-48"
                 type="text"
                 name="sender_address"
                 value={formData.sender_address}
@@ -146,9 +146,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div>
-              <label>Sender Postal</label>
-              <input
+            <div className="flex items-center">
+              <label className="w-1/3">Sender Postal</label>
+              <input className="text-center rounded-lg border-2 border-black-800 mx-20 min-w-48"
                 type="number"
                 name="sender_postal"
                 value={formData.sender_postal}
@@ -156,9 +156,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div>
-              <label>Receiver Name</label>
-              <input
+            <div className="flex items-center">
+              <label className="w-1/3">Receiver Name</label>
+              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
                 type="text"
                 name="receiver_name"
                 value={formData.receiver_name}
@@ -166,9 +166,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div>
-              <label>Receiver Surname</label>
-              <input
+            <div className="flex items-center">
+              <label className="w-1/3">Receiver Surname</label>
+              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
                 type="text"
                 name="receiver_surname"
                 value={formData.receiver_surname}
@@ -176,9 +176,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div>
-              <label>Receiver Address</label>
-              <input
+            <div className="flex items-center">
+              <label className="w-1/3">Receiver Address</label>
+              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
                 type="text"
                 name="receiver_address"
                 value={formData.receiver_address}
@@ -186,9 +186,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div>
-              <label>Receiver Postal</label>
-              <input
+            <div className="flex items-center">
+              <label className="w-1/3">Receiver Postal</label>
+              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
                 type="number"
                 name="receiver_postal"
                 value={formData.receiver_postal}
@@ -196,9 +196,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div>
-              <label>Weight (kg)</label>
-              <input
+            <div className="flex items-center">
+              <label className="w-1/3">Weight (kg)</label>
+              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
                 type="number"
                 name="weight"
                 value={formData.weight}
@@ -206,9 +206,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div>
-              <label>Type</label>
-              <select
+            <div className="flex items-center">
+              <label className="w-1/3">Type</label>
+              <select className="text-center rounded-lg border-2 border-black-800 mx-20"
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
@@ -219,15 +219,15 @@ export default function Home() {
                 <option value="letter">Letter</option>
               </select>
             </div>
-            <div>
-              <label>
-                <input
+            <div className="flex items-center">
+              <label className="w-1/3">
+              Insurance
+                <input className="text-center rounded-lg border-2 border-black-800 mx-20"
                   type="checkbox"
                   name="insurance"
                   checked={formData.insurance}
                   onChange={handleChange}
                 />
-                Insurance
               </label>
             </div>
             <button type="submit">Submit</button>
