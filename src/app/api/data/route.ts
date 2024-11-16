@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       insurance,
     } = body;
 
-    const [result] = await db.query(
+    await db.query(
       "INSERT INTO parcel_records VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         tracking_number,
