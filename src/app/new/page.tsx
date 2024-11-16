@@ -184,14 +184,15 @@ export default function Home() {
         <button type="submit">Submit</button>
       </form>
 
-      {/* <h2>Records</h2>
+      <h2>Records</h2>
       <ul>
         {data.map((record, index) => (
           <li key={index}>
-            {record.tracking_number}: {record.sender_name} to {record.receiver_name} (${record.price})
+            {record.tracking_number}: {record.sender_name} to {record.receiver_name} (${record.price})<br/>
+            Sender Postal: {record.sender_postal}<br/>Reciver Postal: {record.receiver_postal}<br/>Weight:{record.weight}
           </li>
         ))}
-      </ul> */}
+      </ul>
     </div>
   );
 }
