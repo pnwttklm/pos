@@ -1,8 +1,22 @@
 import { NextResponse } from "next/server";
 import db from "../../../../lib/db"; // Adjust path to your actual db import
 import QRCode from "qrcode";
+import { StandardFonts } from "pdf-lib";
 import { PDFDocument } from "pdf-lib";
-
+import { FieldPacket } from "mysql2";
+interface ParcelRecord {
+  tracking_number: string;
+  sender_name: string;
+  sender_surname: string;
+  sender_address: string;
+  sender_postal: string;
+  receiver_name: string;
+  receiver_surname: string;
+  receiver_address: string;
+  receiver_postal: string;
+  type: string;
+  weight: number;
+}
 export async function POST(request: Request) {
   try {
     const { trackingNumber } = await request.json();
@@ -17,10 +31,10 @@ export async function POST(request: Request) {
     console.log("Fetching parcel data for tracking number:", trackingNumber);
 
     // Fetch data from the database
-    const [rows]: [any[], any] = await db.query(
+    const [rows] = await db.query(
       "SELECT tracking_number, sender_name, sender_surname, sender_address, sender_postal, receiver_name, receiver_surname, receiver_address, receiver_postal, type, weight FROM parcel_records WHERE tracking_number = ?",
       [trackingNumber]
-    );
+    ) as [ParcelRecord[], FieldPacket[]];
 
     if (!rows || rows.length === 0) {
       return NextResponse.json(
@@ -50,7 +64,7 @@ export async function POST(request: Request) {
     const page = pdfDoc.addPage([600, 400]);
     const { width, height } = page.getSize();
 
-    const { StandardFonts } = require("pdf-lib");
+    
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontSize = 12;
 

@@ -33,7 +33,7 @@ export default function Home() {
     type: "",
     insurance: false,
   });
-  const [data, setData] = useState<PostalRecords>();
+  // const [data, setData] = useState<PostalRecords>();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -61,7 +61,7 @@ export default function Home() {
       price,
     };
 
-    setData(newRecord);
+    // setData(newRecord);
     setFormData({
       sender_name: "",
       sender_surname: "",
