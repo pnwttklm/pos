@@ -20,7 +20,7 @@ export default async function Home() {
 
   return (
     <main>
-      <h1>Database Data</h1>
+      <h1>Parcels Data</h1>
       <table>
         <thead>
           <tr>
@@ -40,7 +40,7 @@ export default async function Home() {
           </tr>
         </thead>
         <tbody>
-          {data.map((row: PostalRecords, index: number) => (
+          {data?.map((row: PostalRecords, index: number) => (
             <tr key={index}>
               <td>{row.tracking_number}</td>
               <td>{row.sender_name}</td>

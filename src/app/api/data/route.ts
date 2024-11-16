@@ -52,10 +52,16 @@ export async function POST(request: Request) {
       ]
     );
 
+    await db.query("INSERT INTO tracking VALUES (?, ?)", [
+      tracking_number,
+      "Main Office",
+    ]);
+
     return NextResponse.json({ message: "Item added" });
   } catch (error) {
     console.error("Error during POST request:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
       { error: "Failed to add item", details: errorMessage },
       { status: 500 }
