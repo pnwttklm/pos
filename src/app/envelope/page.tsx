@@ -42,16 +42,16 @@ const EnvelopePage = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Envelope Generator</h1>
-      <input
+    <div style={{ padding: "20px" }} className="justify-self-center text-center rounded-lg border-sky-500 mx-20 w-3/5 shadow-xl my-16">
+      <h1 className="text-left">Envelope Generator</h1>
+      <input className ="text-center rounded-lg border-2 border-black-800 mx-20"
         type="text"
         value={trackingNumber}
         onChange={(e) => setTrackingNumber(e.target.value)}
         placeholder="Enter Tracking Number"
         style={{ padding: "10px", margin: "10px 0", width: "100%" }}
       />
-      <button onClick={handleGeneratePDF} disabled={isLoading}>
+      <button onClick={handleGeneratePDF} disabled={isLoading}  className="my-8 ring ring-black-500 py-1 px-4 rounded-lg drop-shadow-2xl ">
         {isLoading ? "Generating..." : "Generate Envelope PDF"}
       </button>
     </div>

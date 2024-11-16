@@ -53,7 +53,7 @@ export default function Home() {
   const PaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const trackingNumber = `TN${Date.now()}`; // Example: Auto-generate tracking number
-    const price = formData.weight * 5; // Example: Calculate price based on weight
+    const price = Math.round(formData.insurance ? formData.receiver_postal > formData.sender_postal ? (formData.receiver_postal-formData.sender_postal)*0.01 *formData.weight+55 : (formData.sender_postal-formData.receiver_postal)*0.01 *formData.weight+55 : formData.receiver_postal > formData.sender_postal ? (formData.receiver_postal-formData.sender_postal)*0.01 *formData.weight+5 : (formData.sender_postal-formData.receiver_postal)*0.01 *formData.weight+5); // Example: Calculate price based on weight
 
     const newRecord: PostalRecords = {
       ...formData,
@@ -76,6 +76,7 @@ export default function Home() {
       insurance: false,
     });
 
+    alert("Your parcel information is saved.\n\nYour parcel tracking number is " + newRecord.tracking_number);
     try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/data`, {
           method: "POST",
@@ -94,7 +95,6 @@ export default function Home() {
           return;
         }
     setCount(0);
-    alert("Your parcel information is saved.");
   }
   const [count, setCount] = useState(0);
 
@@ -115,10 +115,15 @@ export default function Home() {
       {count == 0 ? (
         <div className="">
           <h1 className="flex justify-center text-2xl mt-20 underline font-medium">Postal Form</h1>
-          <form onSubmit={handleSubmit} className="justify-self-center text-center rounded-lg border-sky-500 mx-20 w-3/5 shadow-xl my-16">
-            <div className="flex items-center">
-              <label className="w-1/3">Sender Name</label>
-              <input className="text-center rounded-lg border-2 border-black-800 mx-20 min-w-48"
+          <form onSubmit={handleSubmit} className="text-center justify-self-center rounded-lg border-sky-500 mx-20 w-3/5 shadow-xl mb-16 mt-6">
+          <br/><br/>
+          <label className="">Sender&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <br/>
+          <label className="underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <br/><br/>
+            <div className="mb-2">
+              <label className="">Name	&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <input className="rounded-lg border-2 border-black-800 mx-20 min-w-48 pl-2"
                 type="text"
                 name="sender_name"
                 value={formData.sender_name}
@@ -126,9 +131,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="flex items-center">
-              <label className="w-1/3">Sender Surname</label>
-              <input className="text-center rounded-lg border-2 border-black-800 mx-20 min-w-48"
+            <div className="mb-2">
+              <label className="">Surname&nbsp;&nbsp;</label>
+              <input className="rounded-lg border-2 border-black-800 mx-20 min-w-48 pl-2"
                 type="text"
                 name="sender_surname"
                 value={formData.sender_surname}
@@ -136,9 +141,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="flex items-center">
-              <label className="w-1/3">Sender Address</label>
-              <input className="text-center rounded-lg border-2 border-black-800 mx-20 min-w-48"
+            <div className="mb-2">
+              <label className="">Address&nbsp;&nbsp;</label>
+              <input className="rounded-lg border-2 border-black-800 mx-20 min-w-48 pl-2"
                 type="text"
                 name="sender_address"
                 value={formData.sender_address}
@@ -146,9 +151,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="flex items-center">
-              <label className="w-1/3">Sender Postal</label>
-              <input className="text-center rounded-lg border-2 border-black-800 mx-20 min-w-48"
+            <div className="mb-2">
+              <label className="">Postal&nbsp;&nbsp;&nbsp;</label>
+              <input className="rounded-lg border-2 border-black-800 mx-20 min-w-48 pl-2"
                 type="number"
                 name="sender_postal"
                 value={formData.sender_postal}
@@ -156,9 +161,14 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="flex items-center">
-              <label className="w-1/3">Receiver Name</label>
-              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
+          <br/>
+          <label className="">Receiver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <br/>
+          <label className="underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <br/><br/>
+            <div className="mb-2">
+              <label className="">Name &nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <input className="rounded-lg border-2 border-black-800 mx-20 pl-2"
                 type="text"
                 name="receiver_name"
                 value={formData.receiver_name}
@@ -166,9 +176,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="flex items-center">
-              <label className="w-1/3">Receiver Surname</label>
-              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
+            <div className="mb-2">
+              <label className="">Surname&nbsp;&nbsp;</label>
+              <input className="rounded-lg border-2 border-black-800 mx-20 pl-2"
                 type="text"
                 name="receiver_surname"
                 value={formData.receiver_surname}
@@ -176,9 +186,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="flex items-center">
-              <label className="w-1/3">Receiver Address</label>
-              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
+            <div className="mb-2">
+              <label className="">Address&nbsp;&nbsp;</label>
+              <input className="rounded-lg border-2 border-black-800 mx-20 pl-2"
                 type="text"
                 name="receiver_address"
                 value={formData.receiver_address}
@@ -186,9 +196,9 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="flex items-center">
-              <label className="w-1/3">Receiver Postal</label>
-              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
+            <div className="mb-2">
+              <label className="">Postal&nbsp;&nbsp;&nbsp;</label>
+              <input className="rounded-lg border-2 border-black-800 mx-20 pl-2"
                 type="number"
                 name="receiver_postal"
                 value={formData.receiver_postal}
@@ -196,33 +206,50 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="flex items-center">
-              <label className="w-1/3">Weight (kg)</label>
-              <input className="text-center rounded-lg border-2 border-black-800 mx-20"
-                type="number"
-                name="weight"
-                value={formData.weight}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="flex items-center">
-              <label className="w-1/3">Type</label>
-              <select className="text-center rounded-lg border-2 border-black-800 mx-20"
+            <br/>
+          <label className="">Parcel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <br/>
+          <label className="underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <br/><br/>
+            <div className="mb-2">
+              <label className="">Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <select className="rounded-lg border-2 border-black-800 mx-20 pl-2"
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
                 required
               >
                 <option value="">Select Type</option>
-                <option value="parcel">Parcel</option>
-                <option value="letter">Letter</option>
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Big">Big</option>
+                <option value="Custom">Custom</option>
               </select>
             </div>
-            <div className="flex items-center">
-              <label className="w-1/3">
-              Insurance
-                <input className="text-center rounded-lg border-2 border-black-800 mx-20"
+            {formData.type !== "Custom" && (
+                  <div>
+                  {(() => {
+                    formData.weight = formData.type === "Small"? 3 : formData.type === "Medium"? 5: formData.type === "Big"? 10 :0;
+                    return <></>;
+                  })()}
+                </div>
+            )}
+            {formData.type === "Custom" && (
+            <div className="mb-2">
+            <label className="">Weight(kg)</label>
+            <input className="rounded-lg border-2 border-black-800 mx-20 pl-2"
+              type="number"
+              name="weight"
+              value={formData.weight}
+              onChange={handleChange}
+              required
+            />
+            </div>
+            )}
+            <div className="">
+              <label className="mb-2">
+              Insurance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input className="rounded-lg border-2 border-black-800 mx-20"
                   type="checkbox"
                   name="insurance"
                   checked={formData.insurance}
@@ -230,82 +257,83 @@ export default function Home() {
                 />
               </label>
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit" className="my-8 ring ring-black-500 py-1 px-4 rounded-lg drop-shadow-2xl ">Submit</button>
           </form>
         </div>
       ) : (
 
         <div>
-          <h1>Choose Payment Method</h1>
-          <form onSubmit={PaymentSubmit}>
+          <h1 className="flex justify-center text-2xl mt-20 underline font-medium">Choose Payment Method</h1>
+          <h1 className="flex justify-center text-2xl mt-20 font-medium">Your price is "{Math.round(formData.insurance ? formData.receiver_postal > formData.sender_postal ? (formData.receiver_postal-formData.sender_postal)*0.01 *formData.weight+55 : (formData.sender_postal-formData.receiver_postal)*0.01 *formData.weight+55 : formData.receiver_postal > formData.sender_postal ? (formData.receiver_postal-formData.sender_postal)*0.01 *formData.weight+5 : (formData.sender_postal-formData.receiver_postal)*0.01 *formData.weight+5)}".</h1>
+          <form onSubmit={PaymentSubmit} className="justify-self-center text-center rounded-lg border-sky-500 mx-20 w-3/5 shadow-xl my-16 border border-slate-900">
           <div>
           <label>
-            <input
+            <input className="my-8"
               type="radio"
               name="payment_method"
               value="Mobile_Banking"
               checked={paymentMethod === "Mobile_Banking"}
               onChange={handlePaymentMethodChange}
             />
-            Mobile Banking
+            &nbsp;Mobile Banking
           </label>
         </div>
         <div>
           <label>
-            <input
+            <input className="my-8"
               type="radio"
               name="payment_method"
               value="True_wallet"
               checked={paymentMethod === "True_wallet"}
               onChange={handlePaymentMethodChange}
             />
-            True wallet
+            &nbsp;True wallet&nbsp;&nbsp;&nbsp;
           </label>
         </div>
         <div>
           <label>
-            <input
+            <input className="my-8"
               type="radio"
               name="payment_method"
               value="PromptPay"
               checked={paymentMethod === "PromptPay"}
               onChange={handlePaymentMethodChange}
             />
-            PromptPay
+             &nbsp;PromptPay&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </label>
         </div>
 
         {paymentMethod === "Mobile_Banking" && (
         <div>
-          <label>Choose your bank</label>
-          <div>
-          <label>
+          <label className="flex justify-center text-xl underline font-medium mb-8" >Choose Your Bank</label>
+          <div className="flex justify-center">
+          <label className="flex items-center gap-2">
             <input type="radio" name="Mobile_Banking" value="SCB Easy" checked= {selectedBank === "SCB Easy"} onChange={handleBankSelection}/>
-            SCB Easy
+           &nbsp;SCB Easy&nbsp;<img className="" width={40} height={40} src= "/images/352546063_641669357830515_5523115071139787386_n.jpg" alt="scb" />
           </label>
           </div>
-          <div>
-          <label>
+          <div className="flex justify-center">
+          <label className="mt-1 flex items-center gap-2">
             <input type="radio" name="Mobile_Banking" value="K PLUS" checked= {selectedBank === "K PLUS"} onChange={handleBankSelection}/>
-            K PLUS
+            &nbsp;K PLUS&nbsp;&nbsp;&nbsp;<img className="" width={40} height={40} src= "/images/กสิกรไทย.jpg" alt="K+" />
           </label>
           </div>
-          <div>
-          <label>
+          <div className="flex justify-center">
+          <label className="mt-1 flex items-center gap-2">
             <input type="radio" name="Mobile_Banking" value="Krungsri" checked= {selectedBank === "Krungsri"} onChange={handleBankSelection}/>
-            Krungsri
+            &nbsp;Krungsri&nbsp;<img className="" width={40} height={40} src= "/images/357098659_658740579630408_6514182495525255873_n.jpg" alt="Krungsri" />
           </label>
           </div>
-          <div>
-          <label>
+          <div className="flex justify-center">
+          <label className="mt-1 flex items-center gap-2">
             <input type="radio" name="Mobile_Banking" value="Krungthai" checked= {selectedBank === "Krungthai"} onChange={handleBankSelection}/>
-            Krungthai
+            &nbsp;Krungthai<img className="" width={40} height={40} src= "/images/466385281_1015097837324582_112570547143435919_n.jpg" alt="Krungthai" />
           </label>
           </div>
-          <div>
-          <label>
+          <div className="flex justify-center">
+          <label className="mt-1 flex items-center gap-2"  >
             <input type="radio" name="Mobile_Banking" value="Bangkok" checked= {selectedBank === "Bangkok"} onChange={handleBankSelection}/>
-            Bangkok
+            &nbsp;Bangkok&nbsp;&nbsp;<img className="" width={40} height={40} src= "/images/409774962_841594991309193_8251152104128804819_n.jpg" alt="Bangkok" />
           </label>
           </div>
         </div>
@@ -313,8 +341,9 @@ export default function Home() {
 
       {paymentMethod === "True_wallet" && (
         <div>
+          <label className="flex justify-center text-xl underline font-medium mb-8" >Input Your True Wallet Phone Number</label>
           <label>True wallet Phone Number</label>
-          <input
+          <input className="text-center rounded-lg border-2 border-black-800 mx-20"
             type="number"
             name="debit_card_number"
             onChange={handleBankSelection}
@@ -324,12 +353,12 @@ export default function Home() {
       )}
 
       {paymentMethod === "PromptPay" && (
-        <div>
-         <img src="/images/Promptpay.jpg" alt="PromptPay" />
+        <div className="flex justify-center">
+         <img src= {`https://promptpay.io/0859901616/${Math.round(formData.insurance ? formData.receiver_postal > formData.sender_postal ? (formData.receiver_postal-formData.sender_postal)*0.01 *formData.weight+55 : (formData.sender_postal-formData.receiver_postal)*0.01 *formData.weight+55 : formData.receiver_postal > formData.sender_postal ? (formData.receiver_postal-formData.sender_postal)*0.01 *formData.weight+5 : (formData.sender_postal-formData.receiver_postal)*0.01 *formData.weight+5)}`} alt="PromptPay" />
         </div>
       )}
 
-        <button type="submit">Submit</button>
+        <button type="submit" className="my-8 ring ring-black-500 py-1 px-4 rounded-lg drop-shadow-2xl ">Submit</button>
       </form>
     </div>
 
@@ -337,3 +366,4 @@ export default function Home() {
     </>
   );
 }
+

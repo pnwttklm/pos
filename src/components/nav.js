@@ -16,6 +16,7 @@ export default function WithSubnavigation() {
         src='/images/ThailandPost_Logo.png'
         className="pl-6 pt-2 place-self-center align-middle"
         alt="logo-navbar"
+
       />
       </Link>
       <section className="flex mr-4 collapse md:visible place-self-center gap-3">
