@@ -45,7 +45,7 @@ export default function Home() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trackingNumber = `TN${Date.now()}`; // Example: Auto-generate tracking number
     const price = formData.weight * 5; // Example: Calculate price based on weight
@@ -71,13 +71,23 @@ export default function Home() {
       insurance: false,
     });
 
-    // fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/data`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(newRecord),
-    // });
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/data`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newRecord),
+      });
+
+      if (!response.ok) {
+      throw new Error("Network response was not ok");
+      }
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      alert("There was an error submitting the form. Please try again.");
+      return;
+    }
 
     setCount(1);
   };

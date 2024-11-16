@@ -30,11 +30,11 @@ export async function POST(request: Request) {
       weight,
       price,
       type,
-      insurance
-    } = body; // Replace with actual fields
+      insurance,
+    } = body;
 
     const [result] = await db.query(
-      "INSERT INTO parcel_records VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO parcel_records VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         tracking_number,
         sender_name,
@@ -48,12 +48,17 @@ export async function POST(request: Request) {
         weight,
         price,
         type,
-        insurance
+        insurance,
       ]
     );
 
     return NextResponse.json({ message: "Item added" });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to add item" }, { status: 500 });
+    console.error("Error during POST request:", error);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json(
+      { error: "Failed to add item", details: errorMessage },
+      { status: 500 }
+    );
   }
 }
