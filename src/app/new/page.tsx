@@ -280,7 +280,7 @@ export default function Home() {
           <label>Choose your bank</label>
           <div>
           <label>
-            <input type="radio" name="Mobile_Banking" value="SCB Easy" checked= {selectedBank === "SCB"} onChange={handleBankSelection}/>
+            <input type="radio" name="Mobile_Banking" value="SCB Easy" checked= {selectedBank === "SCB Easy"} onChange={handleBankSelection}/>
             SCB Easy
           </label>
           </div>
