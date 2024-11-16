@@ -33,7 +33,7 @@ export default function Home() {
     type: "",
     insurance: false,
   });
-  const [data, setData] = useState<PostalRecords[]>([]);
+  const [data, setData] = useState<PostalRecords>();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -56,7 +56,7 @@ export default function Home() {
       price,
     };
 
-    setData((prev) => [...prev, newRecord]);
+    setData(newRecord);
     setFormData({
       sender_name: "",
       sender_surname: "",
@@ -218,17 +218,15 @@ export default function Home() {
 
           <h2>Records</h2>
           <ul>
-            {data.map((record, index) => (
-              <li key={index}>
-                {record.tracking_number}: {record.sender_name} to{" "}
-                {record.receiver_name} (${record.price})<br />
-                Sender Postal: {record.sender_postal}
+              <li>
+                {data?.tracking_number}: {data?.sender_name} to{" "}
+                {data?.receiver_name} (${data?.price})<br />
+                Sender Postal: {data?.sender_postal}
                 <br />
-                Reciver Postal: {record.receiver_postal}
+                Reciver Postal: {data?.receiver_postal}
                 <br />
-                Weight:{record.weight}
+                Weight:{data?.weight}
               </li>
-            ))}
           </ul>
         </div>
       ) : (
