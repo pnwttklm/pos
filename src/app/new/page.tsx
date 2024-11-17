@@ -47,11 +47,33 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const sender_postal = formData.sender_postal;
+    if (sender_postal < 10100 || sender_postal > 96220 || sender_postal % 10 !== 0) {
+        alert("Invalid sender postal.");
+        return;
+    }
+
+    const receiver_postal = formData.receiver_postal;
+    if (receiver_postal < 10100 || receiver_postal > 96220 || receiver_postal % 10 !== 0) {
+        alert("Invalid receiver postal.");
+        return;
+    }
+
     setCount(1);
   };
 
   const PaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (paymentMethod === "True_wallet") {
+      const trueWalletRegex = /^0\d{9}$/;
+      if (!trueWalletRegex.test(trueWalletNumber)) {
+          alert("Please enter a valid True Wallet number.");
+          return;
+      }
+  }
+  
+
     const trackingNumber = `TN${Date.now()}`; // Example: Auto-generate tracking number
     const price = Math.round(formData.insurance ? formData.receiver_postal > formData.sender_postal ? (formData.receiver_postal-formData.sender_postal)*0.01 *formData.weight+55 : (formData.sender_postal-formData.receiver_postal)*0.01 *formData.weight+55 : formData.receiver_postal > formData.sender_postal ? (formData.receiver_postal-formData.sender_postal)*0.01 *formData.weight+5 : (formData.sender_postal-formData.receiver_postal)*0.01 *formData.weight+5); // Example: Calculate price based on weight
 
@@ -101,6 +123,8 @@ export default function Home() {
 
   const [paymentMethod, setPaymentMethod] = useState<string>("credit");
   const [selectedBank, setSelectedBank] = useState<string>('');
+  const [trueWalletNumber, setTrueWalletNumber] = useState("");
+
 
   const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPaymentMethod(e.target.value);
@@ -345,8 +369,8 @@ export default function Home() {
           <label>True wallet Phone Number</label>
           <input className="text-center rounded-lg border-2 border-black-800 mx-20"
             type="number"
-            name="debit_card_number"
-            onChange={handleBankSelection}
+            name={trueWalletNumber}
+            onChange={(e) => setTrueWalletNumber(e.target.value)}
             required
           />
         </div>
