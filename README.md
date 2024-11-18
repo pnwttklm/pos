@@ -17,3 +17,5 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+<p>Please note that you might face database connections exceed the limits. Try restart the website. This happens because we use free database which has some limits.</p>
