@@ -338,25 +338,25 @@ export default function Home() {
           </div>
           <div className="flex justify-center">
           <label className="mt-1 flex items-center gap-2">
-            <input type="radio" name="Mobile_Banking" value="K PLUS" checked= {selectedBank === "K PLUS"} onChange={handleBankSelection}/>
+            <input type="radio" name="Mobile_Banking" value="K PLUS" checked= {selectedBank === "K PLUS"} onChange={handleBankSelection}required/>
             &nbsp;K PLUS&nbsp;&nbsp;&nbsp;<img className="" width={40} height={40} src= "/images/กสิกรไทย.jpg" alt="K+" />
           </label>
           </div>
           <div className="flex justify-center">
           <label className="mt-1 flex items-center gap-2">
-            <input type="radio" name="Mobile_Banking" value="Krungsri" checked= {selectedBank === "Krungsri"} onChange={handleBankSelection}/>
+            <input type="radio" name="Mobile_Banking" value="Krungsri" checked= {selectedBank === "Krungsri"} onChange={handleBankSelection}required/>
             &nbsp;Krungsri&nbsp;<img className="" width={40} height={40} src= "/images/357098659_658740579630408_6514182495525255873_n.jpg" alt="Krungsri" />
           </label>
           </div>
           <div className="flex justify-center">
           <label className="mt-1 flex items-center gap-2">
-            <input type="radio" name="Mobile_Banking" value="Krungthai" checked= {selectedBank === "Krungthai"} onChange={handleBankSelection}/>
+            <input type="radio" name="Mobile_Banking" value="Krungthai" checked= {selectedBank === "Krungthai"} onChange={handleBankSelection}required/>
             &nbsp;Krungthai<img className="" width={40} height={40} src= "/images/466385281_1015097837324582_112570547143435919_n.jpg" alt="Krungthai" />
           </label>
           </div>
           <div className="flex justify-center">
           <label className="mt-1 flex items-center gap-2"  >
-            <input type="radio" name="Mobile_Banking" value="Bangkok" checked= {selectedBank === "Bangkok"} onChange={handleBankSelection}/>
+            <input type="radio" name="Mobile_Banking" value="Bangkok" checked= {selectedBank === "Bangkok"} onChange={handleBankSelection}required/>
             &nbsp;Bangkok&nbsp;&nbsp;<img className="" width={40} height={40} src= "/images/409774962_841594991309193_8251152104128804819_n.jpg" alt="Bangkok" />
           </label>
           </div>
