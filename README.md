@@ -2,10 +2,13 @@
 
 First, install node_modules
 making sure you have `npm` in your machine.
-run
+<p> run </p>
+
 ```
 npm install
 ```
+
+Please make sure that `.env.local` is existed, if not you can get the content of `.env.local` in Appendix B of the report.
 
 Then, run the development server:
 
